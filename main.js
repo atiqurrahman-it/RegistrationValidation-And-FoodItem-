@@ -16,7 +16,11 @@ const foodDisplay=meals=>{
     // reset Food item when Search btn click than new item show 
     // remove item and new item show 
     cardContainer.innerText=''
-    meals.forEach(meal=>{
+  
+
+    const countItem=meals.length
+   
+    meals.splice(0,6).forEach(meal=>{
         // console.log(meal)
         const div=document.createElement('div');
         div.classList.add('col');
@@ -31,10 +35,9 @@ const foodDisplay=meals=>{
               <p class="card-text">
                 ${meal.strInstructions.slice(0,100)}...
               </p>
-              <p class="card-text">
-              </p>
-                <a onclick="FoodDetails(${meal.idMeal})" class="text-warning text-decoration-underline" data-bs-toggle="modal" data-bs-target="#FoodDatails">View Details</a>
-              </p>
+             
+              <a onclick="FoodDetails(${meal.idMeal})" class="text-warning text-decoration-underline " data-bs-toggle="modal" data-bs-target="#FoodDatails">View Details</a>
+             
             </div>
           </div>
         </div>
@@ -42,6 +45,29 @@ const foodDisplay=meals=>{
         `
         cardContainer.appendChild(div)
     })
+   // show all btn show when product item e greater than 6 
+    if(countItem >=6){
+      const showBtn=document.getElementById('showBtn')
+      // <button class="btn btn-warning py-1 px-3">show All</button>
+      let div=document.createElement('div')
+      
+      div.innerHTML=`
+      <button onclick="showAllFood()" class="btn btn-warning py-1 px-3">show All</button>
+      `
+      // classList.add('btn','btn-warning','py-1','px-3')
+      // btn.innerText='Show All'
+      // btn.setAttribute('onclick','showAllFood(${meals})')
+
+      showBtn.appendChild(div)
+    }
+    else{
+      showBtn.innerText=''
+    }
+}
+
+const showAllFood=()=>{
+  console.log("show all data ")
+  // foodDisplay(data)
 }
 
 const FoodDetails=(itemId)=>{
@@ -77,6 +103,8 @@ const singleFoodDetails=data=>{
   console.log(FoodTitle)
   console.log("single Food")
 }
+
+
 const SearchMeals=()=>{
   const FoodInputElement=document.getElementById('FoodInputId')
   foodName=FoodInputElement.value
