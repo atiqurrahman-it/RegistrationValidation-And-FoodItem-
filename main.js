@@ -1,5 +1,5 @@
 const foodSearch=document.getElementById('foodSearchBtn')
-let moreThan6=0
+const showBtn=document.getElementById('showBtn')
 
 const LoadFood=(searchText='fish')=>{
     foodUrl=`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchText}
@@ -7,11 +7,31 @@ const LoadFood=(searchText='fish')=>{
     fetch(foodUrl)
     .then(res=>res.json())
     .then(data=>{
-      foodDisplay(data.meals)
+      const FootNotfoundElement=document.getElementById('FootNotfoundId')
+      // if food is available
+      if(data.meals!=null ){
+        FootNotfoundElement.innerText=''
+        foodDisplay(data.meals)
+      }else{
+        const div=document.createElement('div')
+        FootNotfoundElement.innerText=''
+        div.innerHTML=`
+        <h3 class="display-1 fw-bold mt-3">404</h3>
+        <p class="fs-3"> <span class="text-danger">Opps!</span> Food  not Found.</p>
+        `
+        FootNotfoundElement.appendChild(div)
+
+        showBtn.innerHTML=''
+        foodDisplay(data.meals)
+      }
+     
+
     })
     
     // if error 
-    .catch(error=>console.log(error))
+    .catch(error=>{
+      console.log(error)
+    })
 }
 
 function setElement(meal){
@@ -56,8 +76,7 @@ const foodDisplay=meals=>{
       showBtn.innerHTML=''
      })
 
-
-    meals.splice(0,6).forEach(meal=>{
+      meals.splice(0,6).forEach(meal=>{
         setElement(meal)
 
     })
@@ -66,6 +85,7 @@ const foodDisplay=meals=>{
    // show all btn show when product item e greater than 6 
    const showBtn=document.getElementById('showBtn')
     if(countItem >=6){
+      showBtn.innerHTML=''
       // <button class="btn btn-warning py-1 px-3">show All</button>
       let div=document.createElement('div')
       
@@ -79,7 +99,6 @@ const foodDisplay=meals=>{
       showBtn.appendChild(div)
     }
     else{
-      console.log(showBtn)
       showBtn.innerHTML=''
     }
 
