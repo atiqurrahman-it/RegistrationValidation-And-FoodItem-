@@ -1,43 +1,44 @@
 
 
-const phoneLoading=(searchText)=>{
+const phoneLoading=(searchText,dataLimit)=>{
     url=`https://openapi.programming-hero.com/api/phones?search=${searchText}`
     fetch(url)
     .then(res=>res.json())
     .then(data=>{
-        displayData(data.data) 
+        displayData(data.data,dataLimit) 
     })
     .catch(error=>console.log(error))
 }
 
-// if phone item not found && item phone fond 
-// if contain add or remove 
-const itemIsFound=(isFound)=>{
-    const itemContainer=document.getElementById('itemNotfound')
-    if(isFound){
-        itemContainer.classList.remove('d-none')
-    }else{
-        itemContainer.classList.add('d-none')
-    }
-}
-
 //display data 
-const displayData=(data)=>{
+const displayData=(phones,dataLimit)=>{
+    if(dataLimit && phones.length>=6){
+        phones=phones.splice(0,6)
+        ShowBtn(true)
+    }else{
+        ShowBtn(false)
+    }
     // if phone item is empty
-    if(data.length==0){
+    if(phones.length===0){
         itemIsFound(true)
+        ShowBtn(false)
     }else{
         itemIsFound(false)
+        
     }
     // before item delete 
     // then new item add 
     removeElement('cardContainer')
-
-    data.forEach(phone=>{
+   
+    phones.forEach(phone=>{
         console.log(phone)
         createElementForCard(phone)
     })
+    //stop loader
+    dataIsLoaderSpinner(false)
+
 }
+
 
 const removeElement=(elementId)=>{
     const removeElement=document.getElementById(elementId)
@@ -59,6 +60,7 @@ const createElementForCard=(phone)=>{
           lead-in to additional content. This content is a little bit
           longer.
         </p>
+        <button onclick="phoneDetails()" href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#phoneDetails">Details</button>
       </div>
     </div>
   </div>
@@ -66,15 +68,33 @@ const createElementForCard=(phone)=>{
     cardContainer.appendChild(div)
 }
 
-const searchBox=()=>{
+
+
+const processData=(dataLimit)=>{
+    dataIsLoaderSpinner(true)
+    const searchText=document.getElementById('searchText').value
+    phoneLoading(searchText,dataLimit)
 
 }
-
 //search phone
 document.getElementById('searchBtn').addEventListener('click',function(){
-    const searchText=document.getElementById('searchText').value
-    phoneLoading(searchText)
+    // loader start 
+    processData(6)
 
 })
+
+//  not the best way to load show all  
+document.getElementById('showBtn').addEventListener('click',function(){
+    processData()
+    console.log("sow btn click")
+
+})
+
+// phoneDetails
+const phoneDetails=()=>{
+    console.log('Phone details ')
+}
+
+
 
 phoneLoading('iphone')
