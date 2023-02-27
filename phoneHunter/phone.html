@@ -13,6 +13,7 @@
         <input
           id="searchText"
           type="text"
+          value="iphone"
           class="form-control border-warning"
           placeholder="Search your phone"
         />
@@ -73,7 +74,11 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="staticBackdropLabel">
+              <h1
+                id="phoneName"
+                class="modal-title fs-5"
+                id="staticBackdropLabel"
+              >
                 Modal title
               </h1>
               <button
@@ -83,7 +88,7 @@
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body">...</div>
+            <div id="phoneDetailsContainer" class="modal-body"></div>
             <div class="modal-footer">
               <button
                 type="button"

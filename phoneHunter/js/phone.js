@@ -31,7 +31,6 @@ const displayData=(phones,dataLimit)=>{
     removeElement('cardContainer')
    
     phones.forEach(phone=>{
-        console.log(phone)
         createElementForCard(phone)
     })
     //stop loader
@@ -40,34 +39,11 @@ const displayData=(phones,dataLimit)=>{
 }
 
 
+//
 const removeElement=(elementId)=>{
     const removeElement=document.getElementById(elementId)
     removeElement.innerText=''
-
 }
-// carate card
-const createElementForCard=(phone)=>{
-    const cardContainer=document.getElementById('cardContainer')
-    const div=document.createElement('div')
-    div.innerHTML=`
-    <div class="col">
-    <div class="card">
-      <img src="${phone.image}" style="max-height:500px; max-width:200px;" class="img-fluid card-img-top mx-auto" alt="..." />
-      <div class="card-body">
-        <h5 class="card-title">${phone.phone_name}</h5>
-        <p class="card-text">
-          This is a longer card with supporting text below as a natural
-          lead-in to additional content. This content is a little bit
-          longer.
-        </p>
-        <button onclick="phoneDetails()" href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#phoneDetails">Details</button>
-      </div>
-    </div>
-  </div>
-    `
-    cardContainer.appendChild(div)
-}
-
 
 
 const processData=(dataLimit)=>{
@@ -76,25 +52,73 @@ const processData=(dataLimit)=>{
     phoneLoading(searchText,dataLimit)
 
 }
-//search phone
+//search phone when search btn click 
 document.getElementById('searchBtn').addEventListener('click',function(){
     // loader start 
     processData(6)
 
 })
 
+// search phone when enter keypress
+document.getElementById("searchText").addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+       processData(6)
+    }
+})
+
 //  not the best way to load show all  
 document.getElementById('showBtn').addEventListener('click',function(){
     processData()
-    console.log("sow btn click")
-
+    
 })
 
 // phoneDetails
-const phoneDetails=()=>{
-    console.log('Phone details ')
+const phoneDetailsLoad=(id)=>{
+    const url=`https://openapi.programming-hero.com/api/phone/${id}`
+    fetch(url)
+    .then(res=>res.json())
+    .then(data=>{
+        phoneDetailsShow(data.data)
+    })
+    .catch(error=>{console.log(error)})
 }
 
+const phoneDetailsShow=(data)=>{
+    const phoneNameElement=document.getElementById('phoneName')
+    phoneNameElement.innerText=data.name
+
+    const phoneDetailsContainer=document.getElementById('phoneDetailsContainer')
+    phoneDetailsContainer.innerHTML=`
+    <img src="${data.image}" style="max-height:400px; max-width:200px; margin-left:100px;" class="img-fluid" alt="..." />
+    <p class="mt-4">${data.releaseDate} </p>
+    <p> Memory : ${data.mainFeatures.memory} </p>
+    <p> storage : ${data.mainFeatures.storage} </p>
+    <p> displaySize : ${data.mainFeatures.displaySize} </p>
+    <p> chipSet : ${data.mainFeatures.chipSet} </p>
+    <p> sensors </p>
+     <ol >
+     ${data.mainFeatures.sensors.map(sensor=>`
+       <li> ${sensor}</li>
+     `).join('')}
+    
+     </ol>
+    `
+}
+
+// element.innerHTML = `
+
+//   <h1>This element has items</h1>
+//   ${this._items.map((item, i) => 
+//     `
+//     <div>
+//       I am item number ${i < 10 ? '0' + (i + 1) : i + 1}. 
+//       My name is ${item.name}.
+//     </div>
+//   `
+//   .trim()).join('')}
+
+// `
 
 
-phoneLoading('iphone')
+
+phoneLoading('iphone',6)

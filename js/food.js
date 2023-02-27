@@ -79,5 +79,17 @@ const singleFoodDetails=data=>{
 LoadFood()
 
 // window.addEventListener('load',FoodShow('fish'))
+
+// search when enter button 
+document.getElementById('FoodInputId').addEventListener('keypress',function(event){
+  const FoodInputElement=document.getElementById('FoodInputId')
+  foodName=FoodInputElement.value
+
+  if (event.key === "Enter") {
+    LoadFood(foodName)
+ }
+ 
+
+})
 // searchBtn click than function call
 foodSearch.addEventListener('click',SearchMeals)
