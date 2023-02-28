@@ -6,3 +6,17 @@
   background-size: cover;
   min-height: 500px;
 }
+
+#navbarNav a {
+  font-size: 16px;
+  font-weight: 700;
+  font-weight: 800px !important;
+  letter-spacing: 2px;
+  text-transform: capitalize;
+  color: black;
+}
+
+#navbarNav a:hover {
+  background-color: yellow;
+  border-radius: 15px;
+}
