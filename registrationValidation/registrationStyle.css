@@ -1,8 +1,24 @@
 body {
   background: url("../img/background_regisnter.jpg");
   max-width: 100%;
-  background-position: center;
+  background-position: center center;
   background-repeat: no-repeat;
-  background-size: cover;
-  min-height: 500px;
+  background-size: 100% 100%; /* img responsive*/
+  height: 800px;
+}
+
+#navbarNav a {
+  font-size: 16px;
+  font-weight: 700;
+  font-weight: 800px !important;
+  letter-spacing: 2px;
+  text-transform: capitalize;
+  color: white;
+}
+
+.navbar-toggler {
+  border: 1px solid white;
+}
+.navbar-toggler-icon {
+  background-color: white;
 }
