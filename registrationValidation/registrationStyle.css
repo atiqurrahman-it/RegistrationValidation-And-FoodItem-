@@ -22,3 +22,7 @@ body {
 .navbar-toggler-icon {
   background-color: white;
 }
+
+.registrationFom {
+  opacity: 0.9;
+}
